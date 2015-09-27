@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Feeder - A VanillaJS plugin that work like a Feed Reader</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <div class="container"></div>
+
+    <script type="text/javascript" src="../build/feeder.min.js"></script>
+    <script type="text/javascript">
+        var container = document.querySelector('.container'),
+            content   = '';
+
+        const render = function (posts) {
+            posts.responseData.feed.entries.forEach((post, index) => {
+                content += '<div class="post"><h1><a href="' + post.link + '">' + post.title + '</a></h1><div class="post-content">' + post.content + '</div></div>';
+            });
+
+            container.innerHTML = content;
+        };
+
+        new Feeder({
+            url: 'http://feeds2.feedburner.com/pinceladasdaweb',
+            size: 3,
+            callback: render
+        });
+    </script>
+</body>
+</html>
