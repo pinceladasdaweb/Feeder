@@ -17,6 +17,10 @@
             return new Feeder(options);
         }
 
+        if (!options) {
+            options = {};
+        }
+
         if (!options.url) {
             throw 'You need to pass a valid URL as a parameter!';
         }
@@ -54,9 +58,7 @@
             }.bind(this);
         },
         request: function () {
-            this.jsonp(this.endpoint, function (data) {
-                this.callback(data);
-            }.bind(this));
+            this.jsonp(this.endpoint, this.callback);
         }
     };
 
