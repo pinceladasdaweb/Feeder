@@ -2,7 +2,7 @@
     "name": "feeder",
     "description": "A VanillaJS plugin that work like a Feed Reader",
     "main": "src/feeder.js",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "Pedro Rogério",
     "private": true,
     "scripts": {
