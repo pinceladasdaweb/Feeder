@@ -25,11 +25,25 @@ And start it:
         });
     };
 
-    new Feeder({
+    Feeder({
         url: 'http://feeds2.feedburner.com/pinceladasdaweb',
         size: 3,
         callback: render
     });
+</script>
+```
+
+Loading Feeder via AMD (require.js):
+
+```html
+<script>
+require(["path/to/feeder.min.js"], function(Feeder) {
+    Feeder({
+        url: 'http://feeds2.feedburner.com/pinceladasdaweb',
+        size: 3,
+        callback: render
+    });
+});
 </script>
 ```
 
