@@ -1,0 +1,12 @@
+{
+    "root": {
+        "src": "./src",
+        "dest": "./build"
+    },
+    "tasks": {
+        "scripts": {
+            "path": "./",
+            "extensions": ["js"]
+        }
+    }
+}

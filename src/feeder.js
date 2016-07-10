@@ -1,26 +1,7 @@
-/*jslint browser: true, debug: true*/
-/*global define, module, exports*/
-(function (root, factory) {
-    'use strict';
-    if (typeof define === 'function' && define.amd) {
-        define([], factory);
-    } else if (typeof exports === 'object') {
-        module.exports = factory();
-    } else {
-        root.Feeder = factory();
-    }
-}(this, function () {
-    'use strict';
+'use strict';
 
-    var Feeder = function (options) {
-        if (!this || !(this instanceof Feeder)) {
-            return new Feeder(options);
-        }
-
-        if (!options) {
-            options = {};
-        }
-
+export default class Feeder {
+    constructor(options) {
         if (!options.url) {
             throw 'You need to pass a valid URL as a parameter!';
         }
@@ -31,36 +12,32 @@
         this.callback = options.callback || function () {};
 
         this.request();
-    };
+    }
 
-    Feeder.prototype = {
-        jsonp: function (url, callback, context) {
-            var name = 'jsonp_' + Math.round(100000 * Math.random()),
-                head,
-                script,
-                extScript;
+    jsonp(url, callback, context) {
+        let name, head, script, extScript;
 
-            head           = document.head || document.getElementsByTagName('head')[0];
-            extScript      = document.createElement('script');
-            extScript.type = 'text/javascript';
+        name = 'jsonp_' + Date.now() + '_' + Math.ceil(Math.random() * 100000);
 
-            script       = extScript.cloneNode();
-            script.src   = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + name;
-            script.async = true;
+        head           = document.head || document.getElementsByTagName('head')[0];
+        extScript      = document.createElement('script');
+        extScript.type = 'text/javascript';
 
-            head.appendChild(script);
+        script       = extScript.cloneNode();
+        script.src   = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + name;
+        script.async = true;
 
-            window[name] = function (data) {
-                callback.call((context || window), data);
-                head.removeChild(script);
-                script = null;
-                delete this.name;
-            }.bind(this);
-        },
-        request: function () {
-            this.jsonp(this.endpoint, this.callback);
+        head.appendChild(script);
+
+        window[name] = (data) => {
+            callback.call((context || window), data);
+            head.removeChild(script);
+            script = null;
+            delete this.name;
         }
-    };
+    }
 
-    return Feeder;
-}));
+    request() {
+        this.jsonp(this.endpoint, this.callback)
+    }
+}
